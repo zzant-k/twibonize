@@ -23,23 +23,23 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    'inline-flex items-center justify-center font-medium transition-all duration-150 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue/50 focus-visible:ring-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100';
+    'inline-flex items-center justify-center font-medium transition-all duration-150 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141414] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none disabled:active:scale-100';
 
   const sizeClasses = {
-    sm: 'h-9 px-3.5 text-xs rounded-lg gap-1.5',
-    md: 'h-11 px-5 text-sm rounded-apple gap-2 min-h-[44px]',
-    lg: 'h-12 px-6 text-base rounded-apple gap-2.5 min-h-[48px]',
+    sm: 'h-9 px-3.5 text-xs rounded-xl gap-1.5',
+    md: 'h-11 px-5 text-sm rounded-xl gap-2 min-h-[44px]',
+    lg: 'h-12 px-6 text-sm font-semibold rounded-xl gap-2.5 min-h-[48px]',
   }[size];
 
   const variantClasses = {
     primary:
-      'bg-apple-blue text-white hover:bg-apple-blueHover active:bg-apple-blueActive shadow-sm',
+      'bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white shadow-md font-semibold transition-colors',
     secondary:
-      'bg-apple-surface hover:bg-apple-surfaceHover text-apple-text border border-apple-border/50 hover:border-apple-border active:bg-apple-surfaceHover',
+      'bg-[#222222] hover:bg-[#2c2c2c] active:bg-[#1a1a1a] text-gray-200 hover:text-white border border-[#333333] transition-colors',
     ghost:
-      'bg-transparent hover:bg-apple-surface text-apple-text active:bg-apple-surfaceHover',
+      'bg-transparent hover:bg-[#222222] text-gray-300 hover:text-white transition-colors',
     danger:
-      'bg-red-50 hover:bg-red-100 text-apple-danger border border-red-200 active:bg-red-200/80',
+      'bg-red-950/40 hover:bg-red-900/60 active:bg-red-900 text-red-300 border border-red-900/60 transition-colors',
   }[variant];
 
   const widthClass = fullWidth ? 'w-full' : '';

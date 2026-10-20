@@ -51,17 +51,17 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative w-full ${maxWidth} bg-white rounded-apple-lg shadow-elevated border border-apple-border/40 overflow-hidden z-10 transition-all transform scale-100 p-6 text-apple-text`}
+        className={`relative w-full ${maxWidth} bg-[#1a1a1a] rounded-2xl shadow-2xl border border-[#2a2a2a] overflow-hidden z-10 transition-all transform scale-100 p-6 text-white`}
       >
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
             {title && (
-              <h3 className="text-lg font-semibold text-apple-text tracking-tight">
+              <h3 className="text-lg font-semibold text-white tracking-tight">
                 {title}
               </h3>
             )}
             {description && (
-              <p className="text-xs text-apple-secondary mt-1">
+              <p className="text-xs text-gray-400 mt-1">
                 {description}
               </p>
             )}
@@ -69,7 +69,7 @@ export const Modal: React.FC<ModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-apple-secondary hover:text-apple-text hover:bg-apple-surface transition-colors -mr-1 -mt-1"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#262626] transition-colors -mr-1 -mt-1"
             aria-label="Tutup dialog"
           >
             <X className="w-4 h-4" />

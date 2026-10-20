@@ -129,19 +129,19 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`relative w-full max-w-[460px] mx-auto rounded-apple-lg overflow-hidden select-none border shadow-card transition-all duration-200 bg-white ${
+      className={`relative w-full max-w-[460px] mx-auto rounded-2xl overflow-hidden select-none border transition-all duration-200 bg-[#121212] shadow-2xl ${
         isDragOver
-          ? 'border-apple-blue ring-4 ring-apple-blue/15'
-          : 'border-apple-border/70'
+          ? 'border-blue-500 ring-4 ring-blue-500/20'
+          : 'border-[#262626]'
       }`}
       style={aspectStyle}
     >
-      {/* Background checkerboard subtle pattern */}
+      {/* Background subtle dot pattern matching CreatorProfilePage */}
       <div
-        className="absolute inset-0 -z-10 bg-apple-surface/50"
+        className="absolute inset-0 -z-10 bg-[#121212]"
         style={{
-          backgroundImage: 'radial-gradient(#D2D2D7 0.8px, transparent 0.8px)',
-          backgroundSize: '16px 16px',
+          backgroundImage: 'radial-gradient(#333333 1px, transparent 1px)',
+          backgroundSize: '12px 12px',
         }}
       />
 
@@ -161,8 +161,8 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
 
       {/* Frame Loading Overlay */}
       {isFrameLoading && (
-        <div className="absolute inset-0 bg-white/70 backdrop-blur-xs flex flex-col items-center justify-center text-apple-secondary text-xs gap-2">
-          <Loader2 className="w-6 h-6 animate-spin text-apple-blue" />
+        <div className="absolute inset-0 bg-[#121212]/80 backdrop-blur-xs flex flex-col items-center justify-center text-gray-300 text-xs gap-2">
+          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
           <span>Memuat frame...</span>
         </div>
       )}
@@ -171,9 +171,9 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
       {!photoSource && !isFrameLoading && (
         <div
           onClick={onUploadClick}
-          className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center cursor-pointer bg-black/5 hover:bg-black/10 transition-colors group"
+          className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center cursor-pointer bg-black/40 hover:bg-black/60 transition-colors group"
         >
-          <div className="w-14 h-14 rounded-full bg-white/95 shadow-md flex items-center justify-center text-apple-blue group-hover:scale-105 transition-transform">
+          <div className="w-14 h-14 rounded-full bg-[#222222] border border-[#333333] shadow-md flex items-center justify-center text-white group-hover:scale-105 group-hover:bg-[#2c2c2c] transition-all">
             <Upload className="w-6 h-6" />
           </div>
         </div>
@@ -181,9 +181,9 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
 
       {/* Subtle Drag Hint Overlay saat foto aktif */}
       {photoSource && (
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none opacity-60 hover:opacity-100 transition-opacity">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[11px] font-medium shadow-sm">
-            <Move className="w-3 h-3" />
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none opacity-80 hover:opacity-100 transition-opacity">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1a1a1a]/90 backdrop-blur-md text-white border border-[#333333] text-[11px] font-medium shadow-sm">
+            <Move className="w-3 h-3 text-blue-400" />
             <span>Sentuh &amp; geser untuk mengatur foto</span>
           </div>
         </div>
@@ -191,7 +191,7 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
 
       {/* Drop zone visual feedback */}
       {isDragOver && (
-        <div className="absolute inset-0 bg-apple-blue/10 backdrop-blur-xs border-2 border-dashed border-apple-blue flex flex-col items-center justify-center text-apple-blue pointer-events-none">
+        <div className="absolute inset-0 bg-blue-950/80 backdrop-blur-xs border-2 border-dashed border-blue-500 flex flex-col items-center justify-center text-blue-400 pointer-events-none">
           <ImagePlus className="w-10 h-10 mb-2 animate-bounce" />
           <span className="text-sm font-semibold">Lepaskan foto untuk mengunggah</span>
         </div>

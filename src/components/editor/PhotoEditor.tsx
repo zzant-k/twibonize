@@ -242,30 +242,30 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 md:py-10">
       {/* Top Bar Header */}
-      <div className="mb-6 pb-3 border-b border-apple-border/40">
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-apple-text">
+      <div className="mb-6 pb-3 border-b border-[#262626]">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
           {template.name}
         </h1>
       </div>
 
       {/* Frame Error Alert */}
       {frameError && (
-        <div className="mb-6 p-4 rounded-apple bg-red-50 border border-red-200 text-xs text-apple-danger flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0" />
+        <div className="mb-6 p-4 rounded-2xl bg-red-950/40 border border-red-800/80 text-xs text-red-200 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
           <span>{frameError}</span>
         </div>
       )}
 
       {/* User Input Error Alert */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-apple bg-red-50 border border-red-200 text-xs text-apple-danger flex items-center justify-between gap-2">
+        <div className="mb-6 p-4 rounded-2xl bg-red-950/40 border border-red-800/80 text-xs text-red-200 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+            <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
             <span>{errorMessage}</span>
           </div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-xs underline hover:no-underline font-medium"
+            className="text-xs text-red-300 hover:text-white underline hover:no-underline font-medium transition-colors"
           >
             Tutup
           </button>
@@ -291,11 +291,6 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
               onDropFile={handlePhotoUpload}
               isFrameLoading={isFrameLoading}
             />
-
-            <div className="flex items-center justify-between text-[11px] text-apple-secondary mt-3 px-2">
-              <span>Preview Kanvas Real-Time</span>
-              <span>Proporsi Asli {template.aspectRatio}</span>
-            </div>
           </div>
         </div>
 

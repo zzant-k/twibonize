@@ -228,7 +228,7 @@ export const CreatorProfilePage: React.FC<CreatorProfilePageProps> = ({
                 >
                   {/* Twibbon Frame Preview Box */}
                   <div
-                    className="relative w-full aspect-[1276/2022] max-h-[380px] bg-[#121212] overflow-hidden flex items-center justify-center p-3 border-b border-[#252525]"
+                    className="relative w-full aspect-square bg-[#121212] overflow-hidden flex items-center justify-center p-3 border-b border-[#252525]"
                     style={{
                       backgroundImage: 'radial-gradient(#333333 1px, transparent 1px)',
                       backgroundSize: '12px 12px',
@@ -244,7 +244,6 @@ export const CreatorProfilePage: React.FC<CreatorProfilePageProps> = ({
                     {/* Interactive Hover Overlay with Call-to-Action */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
                       <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white text-black font-semibold text-xs shadow-xl transform translate-y-2 group-hover:translate-y-0 transition-transform">
-                        <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                         <span>Gunakan Frame Ini</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </span>

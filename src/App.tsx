@@ -83,8 +83,8 @@ export function App() {
 
   // 2. Tampilan Studio Editor Twibbon
   return (
-    <div className="min-h-screen flex flex-col bg-white text-apple-text antialiased">
-      {/* Apple-style Navbar with Twibbon Title & Kembali ke Profil */}
+    <div className="min-h-screen flex flex-col bg-[#141414] text-white font-sans selection:bg-blue-600 selection:text-white antialiased">
+      {/* Navbar with Twibbon Title & Kembali ke Profil */}
       <Navbar
         twibbonTitle={activeTemplate.name}
         onBackToHome={navigateToHome}

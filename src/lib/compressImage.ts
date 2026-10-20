@@ -18,7 +18,7 @@ export async function compressTwibbonThumbnail(
   const origWidth = sourceCanvas.width;
   const origHeight = sourceCanvas.height;
 
-  // Hitung tinggi proporsional mengikuti rasio asli (1276:2022)
+  // Hitung tinggi proporsional mengikuti rasio asli canvas (1:1)
   const targetHeight = Math.round((targetWidth / origWidth) * origHeight);
 
   const thumbCanvas = document.createElement('canvas');

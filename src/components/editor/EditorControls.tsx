@@ -93,13 +93,13 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
       />
 
       {/* 1. Pengelolaan Foto */}
-      <div className="flex flex-col gap-3 p-4 rounded-apple-lg bg-white border border-apple-border/60 shadow-subtle">
+      <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] shadow-lg">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold text-apple-text uppercase tracking-wider">
+          <span className="text-xs font-semibold text-white uppercase tracking-wider">
             Sumber Foto
           </span>
           {photoSource && (
-            <span className="text-[11px] text-apple-secondary font-mono">
+            <span className="text-[11px] text-blue-400 font-mono font-medium px-2 py-0.5 rounded bg-[#222222] border border-[#333333]">
               {photoSource.width} × {photoSource.height} px
             </span>
           )}
@@ -132,14 +132,14 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
 
       {/* 2. Kontrol Posisi & Transformasi (hanya aktif jika foto ada) */}
       <div
-        className={`flex flex-col gap-4 p-4 rounded-apple-lg bg-white border border-apple-border/60 shadow-subtle transition-opacity ${
+        className={`flex flex-col gap-4 p-4 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] shadow-lg transition-opacity ${
           !photoSource ? 'opacity-40 pointer-events-none' : ''
         }`}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-apple-blue" />
-            <span className="text-xs font-semibold text-apple-text uppercase tracking-wider">
+            <Sliders className="w-4 h-4 text-blue-400" />
+            <span className="text-xs font-semibold text-white uppercase tracking-wider">
               Atur Posisi &amp; Ukuran
             </span>
           </div>
@@ -147,7 +147,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
           <button
             type="button"
             onClick={onResetTransform}
-            className="flex items-center gap-1 text-[11px] font-medium text-apple-secondary hover:text-apple-blue transition-colors px-2 py-1 rounded hover:bg-apple-surface"
+            className="flex items-center gap-1 text-[11px] font-medium text-gray-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-[#222222]"
           >
             <RefreshCw className="w-3 h-3" />
             <span>Reset</span>
@@ -160,7 +160,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
             <button
               type="button"
               onClick={onZoomOut}
-              className="w-8 h-8 rounded-full border border-apple-border flex items-center justify-center text-apple-secondary hover:text-apple-text hover:bg-apple-surface transition-colors shrink-0"
+              className="w-9 h-9 rounded-xl border border-[#333333] bg-[#222222] hover:bg-[#2c2c2c] flex items-center justify-center text-gray-300 hover:text-white transition-colors shrink-0"
               title="Perkecil (-10%)"
               aria-label="Perkecil"
             >
@@ -182,7 +182,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
             <button
               type="button"
               onClick={onZoomIn}
-              className="w-8 h-8 rounded-full border border-apple-border flex items-center justify-center text-apple-secondary hover:text-apple-text hover:bg-apple-surface transition-colors shrink-0"
+              className="w-9 h-9 rounded-xl border border-[#333333] bg-[#222222] hover:bg-[#2c2c2c] flex items-center justify-center text-gray-300 hover:text-white transition-colors shrink-0"
               title="Perbesar (+10%)"
               aria-label="Perbesar"
             >
@@ -216,14 +216,14 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
         />
 
         {/* Quick Rotation */}
-        <div className="flex items-center justify-between pt-1 border-t border-apple-border/30">
-          <span className="text-xs text-apple-secondary font-medium">Putar Foto</span>
+        <div className="flex items-center justify-between pt-1 border-t border-[#262626]">
+          <span className="text-xs text-gray-300 font-medium">Putar Foto</span>
           <button
             type="button"
             onClick={onRotateClockwise}
-            className="inline-flex items-center gap-1.5 text-xs text-apple-text font-medium px-3 py-1.5 rounded-apple bg-apple-surface hover:bg-apple-surfaceHover border border-apple-border/50 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-gray-200 font-medium px-3 py-1.5 rounded-xl bg-[#222222] hover:bg-[#2c2c2c] border border-[#333333] transition-colors"
           >
-            <RotateCw className="w-3.5 h-3.5 text-apple-blue" />
+            <RotateCw className="w-3.5 h-3.5 text-blue-400" />
             <span>90° Searah Jarum Jam</span>
           </button>
         </div>
@@ -231,29 +231,29 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
 
       {/* 3. Panel Caption Media Sosial (Siap Salin) */}
       {caption.text && (
-        <div className="flex flex-col gap-2.5 p-4 rounded-apple-lg bg-white border border-apple-border/60 shadow-subtle text-left">
+        <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] shadow-lg text-left">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-apple-text uppercase tracking-wider flex items-center gap-1.5">
-              <Copy className="w-3.5 h-3.5 text-apple-blue" />
+            <span className="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+              <Copy className="w-3.5 h-3.5 text-blue-400" />
               Caption Media Sosial
             </span>
             <button
               type="button"
               onClick={onCopyCaption}
-              className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-md transition-all ${
+              className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-lg transition-all ${
                 copiedCaptionFeedback
-                  ? 'bg-emerald-50 text-emerald-600 border border-emerald-200'
-                  : 'bg-apple-surface hover:bg-apple-surfaceHover text-apple-blue border border-apple-border/50'
+                  ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-800'
+                  : 'bg-[#222222] hover:bg-[#2c2c2c] text-gray-200 border border-[#333333]'
               }`}
             >
               {copiedCaptionFeedback ? (
                 <>
-                  <Check className="w-3.5 h-3.5" />
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Tersalin!</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5" />
+                  <Copy className="w-3.5 h-3.5 text-blue-400" />
                   <span>Salin Teks</span>
                 </>
               )}
@@ -267,7 +267,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
               const newText = e.target.value;
               onChangeCaption((prev) => ({ ...prev, text: newText }));
             }}
-            className="w-full px-3 py-2 text-xs rounded-apple bg-apple-surface/60 border border-apple-border/60 text-apple-text font-sans focus:outline-none focus:ring-2 focus:ring-apple-blue/40 focus:bg-white transition-all resize-none leading-relaxed"
+            className="w-full px-3 py-2 text-xs rounded-xl bg-[#222222] border border-[#333333] text-white placeholder:text-gray-500 font-sans focus:outline-none focus:border-gray-500 transition-all resize-none leading-relaxed"
           />
         </div>
       )}
@@ -275,13 +275,13 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
       {/* 4. Aksi Utama: Unduh, Salin & Bagikan */}
       <div className="flex flex-col gap-3 pt-2">
         {/* Input Nama Peserta untuk Galeri Riwayat */}
-        <div className="flex flex-col gap-1.5 p-3 rounded-apple bg-apple-surface/60 border border-apple-border/50 text-left">
-          <label htmlFor="participant-name-input" className="text-xs font-semibold text-apple-text flex items-center justify-between">
+        <div className="flex flex-col gap-1.5 p-3 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] text-left">
+          <label htmlFor="participant-name-input" className="text-xs font-semibold text-white flex items-center justify-between">
             <span className="flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-apple-blue" />
+              <User className="w-3.5 h-3.5 text-blue-400" />
               Nama Peserta
             </span>
-            <span className="text-[10px] text-apple-secondary font-normal">Opsional • Masuk Galeri</span>
+            <span className="text-[10px] text-gray-400 font-normal">Opsional • Masuk Galeri</span>
           </label>
           <input
             id="participant-name-input"
@@ -290,7 +290,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
             value={participantName}
             onChange={(e) => onParticipantNameChange(e.target.value)}
             maxLength={40}
-            className="w-full px-3 py-2 text-xs rounded-apple bg-white border border-apple-border/60 text-apple-text placeholder:text-apple-secondary/60 focus:outline-none focus:ring-2 focus:ring-apple-blue/40 transition-all"
+            className="w-full px-3 py-2 text-xs rounded-xl bg-[#222222] border border-[#333333] text-white placeholder:text-gray-500 focus:outline-none focus:border-gray-500 transition-all"
           />
         </div>
 
@@ -313,9 +313,9 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
             onClick={onCopyCaption}
             leftIcon={
               copiedCaptionFeedback ? (
-                <Check className="w-4 h-4 text-emerald-600" />
+                <Check className="w-4 h-4 text-emerald-400" />
               ) : (
-                <Copy className="w-4 h-4 text-apple-blue" />
+                <Copy className="w-4 h-4 text-blue-400" />
               )
             }
           >
@@ -327,7 +327,7 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
             size="md"
             disabled={!photoSource || isExporting}
             onClick={onShare}
-            leftIcon={<Share2 className="w-4 h-4 text-apple-blue" />}
+            leftIcon={<Share2 className="w-4 h-4 text-blue-400" />}
           >
             Bagikan
           </Button>
@@ -342,7 +342,6 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
         >
           Buka Instagram
         </Button>
-
       </div>
     </div>
   );
