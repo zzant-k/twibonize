@@ -9,7 +9,6 @@ import {
   LayoutGrid,
   Search,
   SlidersHorizontal,
-  Sparkles,
   ArrowRight,
   Check,
 } from 'lucide-react';
