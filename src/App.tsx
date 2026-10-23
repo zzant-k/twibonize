@@ -48,7 +48,7 @@ export function App() {
   const loadParticipants = useCallback(async () => {
     setIsLoadingParticipants(true);
     try {
-      const data = await fetchParticipants(40);
+      const data = await fetchParticipants();
       setParticipants(data);
     } catch {
       // Handled gracefully in fetchParticipants
@@ -59,7 +59,7 @@ export function App() {
 
   useEffect(() => {
     let ignore = false;
-    fetchParticipants(40).then((data) => {
+    fetchParticipants().then((data) => {
       if (!ignore) {
         setParticipants(data);
       }
@@ -83,7 +83,7 @@ export function App() {
 
   // 2. Tampilan Studio Editor Twibbon
   return (
-    <div className="min-h-screen flex flex-col bg-[#141414] text-white font-sans selection:bg-blue-600 selection:text-white antialiased">
+    <div className="min-h-screen flex flex-col bg-[#141517] text-white font-sans selection:bg-blue-600 selection:text-white antialiased">
       {/* Navbar with Twibbon Title & Kembali ke Profil */}
       <Navbar
         twibbonTitle={activeTemplate.name}

@@ -1,40 +1,25 @@
 import React, { useRef } from 'react';
 import {
   Upload,
-  RefreshCw,
   Trash2,
-  ZoomIn,
-  ZoomOut,
-  RotateCw,
   Download,
   Share2,
-  Sliders,
   Copy,
   Check,
   ExternalLink,
   User,
 } from 'lucide-react';
-import { TwibbonTemplate, PhotoTransform, CaptionState, PhotoSource } from '../../types/template';
+import { TwibbonTemplate, CaptionState, PhotoSource } from '../../types/template';
 import { Button } from '../ui/Button';
-import { Slider } from '../ui/Slider';
-import { MIN_SCALE, MAX_SCALE } from '../../hooks/usePhotoTransform';
 
 interface EditorControlsProps {
   template: TwibbonTemplate;
   photoSource: PhotoSource | null;
-  transform: PhotoTransform;
   caption: CaptionState;
   participantName: string;
   onParticipantNameChange: (name: string) => void;
   onUploadFile: (file: File) => void;
   onRemovePhoto: () => void;
-  onScaleChange: (newScale: number | ((prev: number) => number)) => void;
-  onOffsetXChange: (x: number) => void;
-  onOffsetYChange: (y: number) => void;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-  onRotateClockwise: () => void;
-  onResetTransform: () => void;
   onChangeCaption: (updater: (prev: CaptionState) => CaptionState) => void;
   onDownload: () => void;
   onShare: () => void;
@@ -45,21 +30,12 @@ interface EditorControlsProps {
 }
 
 export const EditorControls: React.FC<EditorControlsProps> = ({
-  template,
   photoSource,
-  transform,
   caption,
   participantName,
   onParticipantNameChange,
   onUploadFile,
   onRemovePhoto,
-  onScaleChange,
-  onOffsetXChange,
-  onOffsetYChange,
-  onZoomIn,
-  onZoomOut,
-  onRotateClockwise,
-  onResetTransform,
   onChangeCaption,
   onDownload,
   onShare,
@@ -77,10 +53,6 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
     }
   };
 
-  // Range slider posisi logis (sebanding dengan dimensi output template)
-  const maxRangeX = Math.round(template.outputWidth * 0.75);
-  const maxRangeY = Math.round(template.outputHeight * 0.75);
-
   return (
     <div className="flex flex-col gap-6 text-left">
       {/* Hidden File Picker Input */}
@@ -93,13 +65,10 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
       />
 
       {/* 1. Pengelolaan Foto */}
-      <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] shadow-lg">
+      <div className="obsidian-card flex flex-col gap-3 p-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold text-white uppercase tracking-wider">
-            Sumber Foto
-          </span>
           {photoSource && (
-            <span className="text-[11px] text-blue-400 font-mono font-medium px-2 py-0.5 rounded bg-[#222222] border border-[#333333]">
+            <span className="obsidian-badge text-[11px] text-gray-300 font-mono font-medium px-2.5 py-0.5">
               {photoSource.width} × {photoSource.height} px
             </span>
           )}
@@ -130,181 +99,104 @@ export const EditorControls: React.FC<EditorControlsProps> = ({
         </div>
       </div>
 
-      {/* 2. Kontrol Posisi & Transformasi (hanya aktif jika foto ada) */}
-      <div
-        className={`flex flex-col gap-4 p-4 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] shadow-lg transition-opacity ${
-          !photoSource ? 'opacity-40 pointer-events-none' : ''
-        }`}
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-blue-400" />
-            <span className="text-xs font-semibold text-white uppercase tracking-wider">
-              Atur Posisi &amp; Ukuran
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={onResetTransform}
-            className="flex items-center gap-1 text-[11px] font-medium text-gray-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-[#222222]"
-          >
-            <RefreshCw className="w-3 h-3" />
-            <span>Reset</span>
-          </button>
-        </div>
-
-        {/* Zoom Slider + Quick Buttons */}
-        <div className="flex flex-col gap-1.5">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={onZoomOut}
-              className="w-9 h-9 rounded-xl border border-[#333333] bg-[#222222] hover:bg-[#2c2c2c] flex items-center justify-center text-gray-300 hover:text-white transition-colors shrink-0"
-              title="Perkecil (-10%)"
-              aria-label="Perkecil"
-            >
-              <ZoomOut className="w-3.5 h-3.5" />
-            </button>
-
-            <div className="flex-1">
-              <Slider
-                label="Perbesar / Perkecil"
-                value={transform.scale}
-                min={MIN_SCALE}
-                max={MAX_SCALE}
-                step={0.05}
-                displayValue={`${Math.round(transform.scale * 100)}%`}
-                onChange={onScaleChange}
-              />
-            </div>
-
-            <button
-              type="button"
-              onClick={onZoomIn}
-              className="w-9 h-9 rounded-xl border border-[#333333] bg-[#222222] hover:bg-[#2c2c2c] flex items-center justify-center text-gray-300 hover:text-white transition-colors shrink-0"
-              title="Perbesar (+10%)"
-              aria-label="Perbesar"
-            >
-              <ZoomIn className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Horizontal Offset Slider */}
-        <Slider
-          label="Posisi Horizontal (X)"
-          value={transform.offsetX}
-          min={-maxRangeX}
-          max={maxRangeX}
-          step={2}
-          unit=" px"
-          onChange={onOffsetXChange}
-          onReset={() => onOffsetXChange(0)}
+      {/* 2. Input Nama Peserta (Wajib Diisi) */}
+      <div className="obsidian-card flex flex-col gap-2 p-3.5 text-left">
+        <label
+          htmlFor="participant-name-input"
+          className="text-xs font-semibold text-white flex items-center justify-between"
+        >
+          <span className="flex items-center gap-1.5">
+            <User className="w-3.5 h-3.5 text-white" />
+            Nama Peserta
+          </span>
+          <span className="text-[10px] text-blue-400 font-semibold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            Wajib Diisi
+          </span>
+        </label>
+        <input
+          id="participant-name-input"
+          type="text"
+          placeholder="Masukkan nama Anda (misal: Budi Santoso)"
+          value={participantName}
+          onChange={(e) => onParticipantNameChange(e.target.value)}
+          maxLength={40}
+          required
+          className={`obsidian-input w-full px-3.5 py-2.5 text-xs rounded-xl text-white placeholder:text-gray-500 focus:outline-none transition-all ${
+            !participantName.trim() && photoSource
+              ? 'border-blue-500/40 ring-1 ring-blue-500/20'
+              : ''
+          }`}
         />
-
-        {/* Vertical Offset Slider */}
-        <Slider
-          label="Posisi Vertikal (Y)"
-          value={transform.offsetY}
-          min={-maxRangeY}
-          max={maxRangeY}
-          step={2}
-          unit=" px"
-          onChange={onOffsetYChange}
-          onReset={() => onOffsetYChange(0)}
-        />
-
-        {/* Quick Rotation */}
-        <div className="flex items-center justify-between pt-1 border-t border-[#262626]">
-          <span className="text-xs text-gray-300 font-medium">Putar Foto</span>
-          <button
-            type="button"
-            onClick={onRotateClockwise}
-            className="inline-flex items-center gap-1.5 text-xs text-gray-200 font-medium px-3 py-1.5 rounded-xl bg-[#222222] hover:bg-[#2c2c2c] border border-[#333333] transition-colors"
-          >
-            <RotateCw className="w-3.5 h-3.5 text-blue-400" />
-            <span>90° Searah Jarum Jam</span>
-          </button>
-        </div>
+        <p className="text-[11px] text-gray-400 leading-snug">
+          Nama ini akan otomatis menggantikan bagian <strong>[Nama Panggilan]</strong> pada caption di bawah dan dicatat di galeri peserta.
+        </p>
       </div>
 
-      {/* 3. Panel Caption Media Sosial (Siap Salin) */}
+      {/* 3. Panel Caption Media Sosial (Siap Salin & Terupdate Otomatis) */}
       {caption.text && (
-        <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] shadow-lg text-left">
+        <div className="obsidian-card flex flex-col gap-2.5 p-4 text-left">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
-              <Copy className="w-3.5 h-3.5 text-blue-400" />
+              <Copy className="w-3.5 h-3.5 text-white" />
               Caption Media Sosial
             </span>
             <button
               type="button"
               onClick={onCopyCaption}
-              className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-lg transition-all ${
-                copiedCaptionFeedback
-                  ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-800'
-                  : 'bg-[#222222] hover:bg-[#2c2c2c] text-gray-200 border border-[#333333]'
-              }`}
+              className={`btn-pill ${
+                copiedCaptionFeedback ? 'btn-pill-emerald' : 'btn-pill-secondary'
+              } h-7 px-3 text-xs font-semibold gap-1.5`}
+              title="Salin caption ke clipboard"
             >
-              {copiedCaptionFeedback ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Tersalin!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Salin Teks</span>
-                </>
-              )}
+              <span className="pill-specular" aria-hidden="true" />
+              <span className="btn-label gap-1.5">
+                {copiedCaptionFeedback ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-300" />
+                    <span>Tersalin!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-white" />
+                    <span>Salin Teks</span>
+                  </>
+                )}
+              </span>
             </button>
           </div>
 
           <textarea
-            rows={3}
+            rows={4}
             value={caption.text}
             onChange={(e) => {
               const newText = e.target.value;
               onChangeCaption((prev) => ({ ...prev, text: newText }));
             }}
-            className="w-full px-3 py-2 text-xs rounded-xl bg-[#222222] border border-[#333333] text-white placeholder:text-gray-500 font-sans focus:outline-none focus:border-gray-500 transition-all resize-none leading-relaxed"
+            className="obsidian-input w-full px-3.5 py-2.5 text-xs rounded-xl text-white placeholder:text-gray-500 font-sans focus:outline-none transition-all resize-none leading-relaxed"
           />
         </div>
       )}
 
       {/* 4. Aksi Utama: Unduh, Salin & Bagikan */}
       <div className="flex flex-col gap-3 pt-2">
-        {/* Input Nama Peserta untuk Galeri Riwayat */}
-        <div className="flex flex-col gap-1.5 p-3 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] text-left">
-          <label htmlFor="participant-name-input" className="text-xs font-semibold text-white flex items-center justify-between">
-            <span className="flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-blue-400" />
-              Nama Peserta
-            </span>
-            <span className="text-[10px] text-gray-400 font-normal">Opsional • Masuk Galeri</span>
-          </label>
-          <input
-            id="participant-name-input"
-            type="text"
-            placeholder="Masukkan nama Anda (misal: Budi Santoso)"
-            value={participantName}
-            onChange={(e) => onParticipantNameChange(e.target.value)}
-            maxLength={40}
-            className="w-full px-3 py-2 text-xs rounded-xl bg-[#222222] border border-[#333333] text-white placeholder:text-gray-500 focus:outline-none focus:border-gray-500 transition-all"
-          />
-        </div>
-
         <Button
           variant="primary"
           size="lg"
           fullWidth
-          disabled={!photoSource}
+          disabled={!photoSource || !participantName.trim()}
           isLoading={isExporting}
           onClick={onDownload}
           leftIcon={<Download className="w-5 h-5" />}
         >
           {isExporting ? 'Memproses Gambar...' : 'Unduh Gambar (Resolusi Penuh)'}
         </Button>
+
+        {photoSource && !participantName.trim() && (
+          <p className="text-[11px] text-amber-300/90 text-center -mt-1 font-medium">
+            * Silakan isi nama peserta di atas untuk mengunduh
+          </p>
+        )}
 
         <div className="grid grid-cols-2 gap-2">
           <Button

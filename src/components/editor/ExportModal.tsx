@@ -67,11 +67,11 @@ export const ExportModal: React.FC<ExportModalProps> = ({
     >
       <div className="flex flex-col gap-5 pt-2">
         {/* Rendered Preview Card */}
-        <div className="relative rounded-2xl overflow-hidden border border-[#2a2a2a] bg-[#121212] flex items-center justify-center p-3 max-h-[300px]">
+        <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#101113] flex items-center justify-center p-3 max-h-[300px]">
           <div
-            className="absolute inset-0 pointer-events-none opacity-40"
+            className="absolute inset-0 pointer-events-none opacity-30"
             style={{
-              backgroundImage: 'radial-gradient(#333333 1px, transparent 1px)',
+              backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px)',
               backgroundSize: '12px 12px',
             }}
           />
@@ -83,7 +83,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
         </div>
 
         {/* File Metadata */}
-        <div className="flex items-center justify-between text-xs bg-[#222222] p-3 rounded-xl border border-[#333333]">
+        <div className="obsidian-card flex items-center justify-between text-xs p-3 rounded-xl">
           <span className="font-mono text-gray-400 truncate max-w-[200px]">
             {exportResult.filename}
           </span>

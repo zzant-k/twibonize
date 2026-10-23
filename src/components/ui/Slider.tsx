@@ -35,7 +35,7 @@ export const Slider: React.FC<SliderProps> = ({
       <div className="flex items-center justify-between text-xs">
         <label className="font-medium text-gray-200 select-none">{label}</label>
         <div className="flex items-center gap-1.5">
-          <span className="font-mono text-blue-400 text-[11px] tabular-nums font-semibold px-2 py-0.5 rounded bg-[#222222] border border-[#333333]">
+          <span className="obsidian-badge font-mono text-gray-300 text-[11px] tabular-nums font-semibold px-2.5 py-0.5">
             {formattedVal}
           </span>
           {onReset && (
@@ -43,10 +43,13 @@ export const Slider: React.FC<SliderProps> = ({
               type="button"
               onClick={onReset}
               disabled={disabled}
-              className="text-[11px] font-medium text-gray-400 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-[#222222] disabled:opacity-40 focus:outline-none"
+              className="btn-pill btn-pill-secondary h-5 px-2.5 text-[10px] font-medium min-h-[22px]"
               title="Reset ke nilai awal"
             >
-              Reset
+              <span className="pill-specular" aria-hidden="true" />
+              <span className="btn-label">
+                Reset
+              </span>
             </button>
           )}
         </div>
@@ -62,11 +65,12 @@ export const Slider: React.FC<SliderProps> = ({
           disabled={disabled}
           onChange={(e) => onChange(parseFloat(e.target.value))}
           style={{
-            background: `linear-gradient(to right, #2563EB 0%, #2563EB ${percentage}%, #333333 ${percentage}%, #333333 100%)`,
+            background: `linear-gradient(to right, #FFFFFF 0%, #FFFFFF ${percentage}%, #2A2D33 ${percentage}%, #2A2D33 100%)`,
           }}
-          className="w-full h-2 rounded-full appearance-none cursor-pointer accent-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-40"
+          className="w-full h-2 rounded-full appearance-none cursor-pointer accent-white focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-40"
         />
       </div>
     </div>
   );
 };
+

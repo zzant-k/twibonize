@@ -47,11 +47,11 @@ export const Modal: React.FC<ModalProps> = ({
         aria-hidden="true"
       />
 
-      {/* Modal Dialog */}
+      {/* Modal Dialog (Obsidian Dark Glass Card) */}
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative w-full ${maxWidth} bg-[#1a1a1a] rounded-2xl shadow-2xl border border-[#2a2a2a] overflow-hidden z-10 transition-all transform scale-100 p-6 text-white`}
+        className={`obsidian-card relative w-full ${maxWidth} rounded-2xl shadow-2xl overflow-hidden z-10 transition-all transform scale-100 p-6 text-white`}
       >
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
@@ -69,10 +69,13 @@ export const Modal: React.FC<ModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#262626] transition-colors -mr-1 -mt-1"
+            className="btn-pill btn-pill-secondary w-8 h-8 min-h-[32px] p-0 rounded-full flex items-center justify-center text-gray-400 hover:text-white -mr-1 -mt-1"
             aria-label="Tutup dialog"
           >
-            <X className="w-4 h-4" />
+            <span className="pill-specular" aria-hidden="true" />
+            <span className="btn-label">
+              <X className="w-4 h-4" />
+            </span>
           </button>
         </div>
 

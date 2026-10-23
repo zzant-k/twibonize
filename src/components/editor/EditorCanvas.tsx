@@ -129,18 +129,18 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`relative w-full max-w-[460px] mx-auto rounded-2xl overflow-hidden select-none border transition-all duration-200 bg-[#121212] shadow-2xl ${
+      className={`relative w-full max-w-[460px] mx-auto rounded-2xl overflow-hidden select-none border transition-all duration-200 bg-[#101113] shadow-2xl ${
         isDragOver
-          ? 'border-blue-500 ring-4 ring-blue-500/20'
-          : 'border-[#262626]'
+          ? 'border-white/40 ring-4 ring-white/10'
+          : 'border-white/[0.09]'
       }`}
       style={aspectStyle}
     >
       {/* Background subtle dot pattern matching CreatorProfilePage */}
       <div
-        className="absolute inset-0 -z-10 bg-[#121212]"
+        className="absolute inset-0 -z-10 bg-[#101113]"
         style={{
-          backgroundImage: 'radial-gradient(#333333 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px)',
           backgroundSize: '12px 12px',
         }}
       />
@@ -161,8 +161,8 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
 
       {/* Frame Loading Overlay */}
       {isFrameLoading && (
-        <div className="absolute inset-0 bg-[#121212]/80 backdrop-blur-xs flex flex-col items-center justify-center text-gray-300 text-xs gap-2">
-          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <div className="absolute inset-0 bg-[#101113]/85 backdrop-blur-xs flex flex-col items-center justify-center text-gray-300 text-xs gap-2">
+          <Loader2 className="w-6 h-6 animate-spin text-white" />
           <span>Memuat frame...</span>
         </div>
       )}
@@ -171,10 +171,17 @@ export const EditorCanvas: React.FC<EditorCanvasProps> = ({
       {!photoSource && !isFrameLoading && (
         <div
           onClick={onUploadClick}
-          className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center cursor-pointer bg-black/40 hover:bg-black/60 transition-colors group"
+          className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center cursor-pointer bg-black/40 hover:bg-black/55 transition-colors group"
         >
-          <div className="w-14 h-14 rounded-full bg-[#222222] border border-[#333333] shadow-md flex items-center justify-center text-white group-hover:scale-105 group-hover:bg-[#2c2c2c] transition-all">
-            <Upload className="w-6 h-6" />
+          <div
+            className="btn-pill btn-pill-secondary w-16 h-16 min-h-[64px] p-0 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-105 transition-transform"
+            role="button"
+            aria-label="Unggah foto Anda"
+          >
+            <span className="pill-specular" aria-hidden="true" />
+            <span className="btn-label">
+              <Upload className="w-6 h-6 text-white group-hover:text-blue-200 transition-colors" />
+            </span>
           </div>
         </div>
       )}

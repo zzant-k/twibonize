@@ -48,21 +48,21 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
   };
 
   return (
-    <section id="template-gallery" className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <section id="template-gallery" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-left">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-apple-text">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
             Koleksi Frame Twibbon
           </h2>
-          <p className="text-sm text-apple-secondary mt-1">
+          <p className="text-sm text-gray-400 mt-1">
             Pilih desain frame di bawah ini untuk memulai menambahkan foto Anda.
           </p>
         </div>
 
         {/* Search bar */}
         <div className="relative w-full md:w-72">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-apple-secondary">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
             <Search className="w-4 h-4" />
           </div>
           <input
@@ -70,12 +70,12 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
             placeholder="Cari frame atau momen..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-9 py-2 rounded-apple bg-apple-surface border border-apple-border/60 text-sm text-apple-text placeholder-apple-secondary/70 focus:outline-none focus:ring-2 focus:ring-apple-blue/50 focus:border-transparent transition-all"
+            className="obsidian-input w-full pl-9 pr-9 py-2 rounded-full text-sm text-white placeholder-gray-500 focus:outline-none transition-all"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-apple-secondary hover:text-apple-text"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white"
               aria-label="Bersihkan pencarian"
             >
               <X className="w-4 h-4" />
@@ -94,13 +94,14 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
                 key={category}
                 type="button"
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all select-none ${
+                className={`btn-pill px-4 py-1.5 text-xs font-medium whitespace-nowrap transition-all select-none ${
                   isActive
-                    ? 'bg-apple-text text-white shadow-sm'
-                    : 'bg-apple-surface text-apple-secondary hover:text-apple-text hover:bg-apple-surfaceHover border border-apple-border/40'
+                    ? 'btn-pill-primary text-white font-semibold'
+                    : 'btn-pill-secondary text-gray-300'
                 }`}
               >
-                {category}
+                <span className="pill-specular" aria-hidden="true" />
+                <span className="btn-label">{category}</span>
               </button>
             );
           })}
@@ -121,14 +122,14 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
         </div>
       ) : (
         /* Empty State */
-        <div className="flex flex-col items-center justify-center p-12 text-center bg-apple-surface/40 rounded-apple-lg border border-apple-border/40">
-          <div className="w-12 h-12 rounded-full bg-apple-surface flex items-center justify-center text-apple-secondary mb-3">
+        <div className="obsidian-card flex flex-col items-center justify-center p-12 text-center">
+          <div className="w-12 h-12 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-gray-400 mb-3">
             <Search className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-semibold text-apple-text">
+          <h3 className="text-base font-semibold text-white">
             Tidak ada frame yang cocok
           </h3>
-          <p className="text-xs text-apple-secondary mt-1 max-w-sm mb-4">
+          <p className="text-xs text-gray-400 mt-1 max-w-sm mb-4">
             Tidak ditemukan template dengan kata kunci &quot;{searchQuery}&quot; pada kategori &quot;{selectedCategory}&quot;.
           </p>
           <Button variant="secondary" size="sm" onClick={handleResetFilters}>
@@ -139,3 +140,4 @@ export const TemplateGallery: React.FC<TemplateGalleryProps> = ({
     </section>
   );
 };
+

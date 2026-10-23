@@ -40,12 +40,7 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
   const {
     transform,
     setScale,
-    setOffsetX,
-    setOffsetY,
     updateOffsetsByDelta,
-    zoomIn,
-    zoomOut,
-    rotateClockwise,
     resetTransform,
   } = usePhotoTransform();
 
@@ -61,14 +56,64 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
   // Participant Name State for Supabase public gallery
   const [participantName, setParticipantName] = useState('');
 
+  // UI feedback & error alerts
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [copiedFeedback, setCopiedFeedback] = useState(false);
+
+  // Deteksi placeholder nama awal pada template caption (misal [Nama Panggilan] atau {nama panggilan})
+  const initialPlaceholderMatch = template.defaultCaption?.match(
+    /\[nama panggilan\]|\{nama panggilan\}|\[nama\]|\{nama\}/i
+  );
+  const nameTokenRef = useRef<string>(
+    initialPlaceholderMatch ? initialPlaceholderMatch[0] : '[Nama Panggilan]'
+  );
+
+  // Update nama peserta dan sinkronkan otomatis ke dalam teks caption
+  const handleParticipantNameChange = useCallback((newName: string) => {
+    setParticipantName(newName);
+    setErrorMessage(null);
+
+    const targetName = newName.trim() || '[Nama Panggilan]';
+    const currentToken = nameTokenRef.current;
+
+    setCaption((prev) => {
+      const currentText = prev.text;
+      let nextText = currentText;
+
+      // 1. Cari token nama sebelumnya di dalam caption
+      const tokenIdx = currentText.indexOf(currentToken);
+      if (tokenIdx !== -1) {
+        nextText =
+          currentText.slice(0, tokenIdx) +
+          targetName +
+          currentText.slice(tokenIdx + currentToken.length);
+        nameTokenRef.current = targetName;
+      } else {
+        // 2. Jika tidak ditemukan, cari dengan regex placeholder
+        const match = currentText.match(
+          /\[nama panggilan\]|\{nama panggilan\}|\[nama\]|\{nama\}/i
+        );
+        if (match && typeof match.index === 'number') {
+          const idx = match.index;
+          nextText =
+            currentText.slice(0, idx) +
+            targetName +
+            currentText.slice(idx + match[0].length);
+          nameTokenRef.current = targetName;
+        }
+      }
+
+      return {
+        ...prev,
+        text: nextText,
+      };
+    });
+  }, []);
+
   // Export State
   const [isExporting, setIsExporting] = useState(false);
   const [exportResult, setExportResult] = useState<ExportResult | null>(null);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
-
-  // UI feedback & error alerts
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [copiedFeedback, setCopiedFeedback] = useState(false);
 
   // Cleanup object URL when photo changes or unmounts
   const cleanupPhotoUrl = useCallback(() => {
@@ -83,7 +128,6 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
       cleanupPhotoUrl();
     };
   }, [cleanupPhotoUrl]);
-
 
   // Handle User Photo Upload with Validation & Initial Positioning
   const handlePhotoUpload = useCallback(
@@ -134,7 +178,7 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
 
       img.src = objectUrl;
     },
-    [cleanupPhotoUrl, resetTransform]
+    [cleanupPhotoUrl, resetTransform, setErrorMessage]
   );
 
   const handleRemovePhoto = () => {
@@ -147,6 +191,11 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
   const handleDownload = async () => {
     if (!photoSource) {
       setErrorMessage('Harap unggah foto Anda terlebih dahulu.');
+      return;
+    }
+
+    if (!participantName.trim()) {
+      setErrorMessage('Harap isi nama peserta terlebih dahulu sebelum mengunduh.');
       return;
     }
 
@@ -202,6 +251,11 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
   const handleShare = async () => {
     if (!photoSource || !frameImage) return;
 
+    if (!participantName.trim()) {
+      setErrorMessage('Harap isi nama peserta terlebih dahulu sebelum membagikan.');
+      return;
+    }
+
     try {
       setIsExporting(true);
       const result = await generateTwibbonExport({
@@ -217,7 +271,7 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
       const shareResult = await shareTwibbon({
         file: result.file,
         title: `Twibbon ${template.name}`,
-        text: caption.enabled ? caption.text : `Twibbon ${template.name}`,
+        text: caption.text || `Twibbon ${template.name}`,
       });
 
       if (!shareResult.success && !shareResult.cancelled) {
@@ -242,7 +296,7 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 md:py-10">
       {/* Top Bar Header */}
-      <div className="mb-6 pb-3 border-b border-[#262626]">
+      <div className="mb-6 pb-3 border-b border-white/[0.08]">
         <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
           {template.name}
         </h1>
@@ -250,7 +304,7 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
 
       {/* Frame Error Alert */}
       {frameError && (
-        <div className="mb-6 p-4 rounded-2xl bg-red-950/40 border border-red-800/80 text-xs text-red-200 flex items-center gap-2">
+        <div className="mb-6 p-4 rounded-2xl bg-red-950/30 border border-red-500/30 text-xs text-red-200 flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
           <span>{frameError}</span>
         </div>
@@ -258,16 +312,17 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
 
       {/* User Input Error Alert */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-2xl bg-red-950/40 border border-red-800/80 text-xs text-red-200 flex items-center justify-between gap-2">
+        <div className="mb-6 p-4 rounded-2xl bg-red-950/30 border border-red-500/30 text-xs text-red-200 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
             <span>{errorMessage}</span>
           </div>
           <button
             onClick={() => setErrorMessage(null)}
-            className="text-xs text-red-300 hover:text-white underline hover:no-underline font-medium transition-colors"
+            className="btn-pill btn-pill-danger h-6 px-3 text-xs font-medium"
           >
-            Tutup
+            <span className="pill-specular" aria-hidden="true" />
+            <span className="btn-label">Tutup</span>
           </button>
         </div>
       )}
@@ -299,19 +354,11 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
           <EditorControls
             template={template}
             photoSource={photoSource}
-            transform={transform}
             caption={caption}
             participantName={participantName}
-            onParticipantNameChange={setParticipantName}
+            onParticipantNameChange={handleParticipantNameChange}
             onUploadFile={handlePhotoUpload}
             onRemovePhoto={handleRemovePhoto}
-            onScaleChange={setScale}
-            onOffsetXChange={setOffsetX}
-            onOffsetYChange={setOffsetY}
-            onZoomIn={() => zoomIn(0.1)}
-            onZoomOut={() => zoomOut(0.1)}
-            onRotateClockwise={rotateClockwise}
-            onResetTransform={resetTransform}
             onChangeCaption={setCaption}
             onDownload={handleDownload}
             onShare={handleShare}
@@ -328,7 +375,7 @@ export const PhotoEditor: React.FC<PhotoEditorProps> = ({
         isOpen={isExportModalOpen}
         onClose={() => setIsExportModalOpen(false)}
         exportResult={exportResult}
-        captionText={caption.enabled ? caption.text : ''}
+        captionText={caption.text}
         templateName={template.name}
       />
     </div>

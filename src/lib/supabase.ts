@@ -29,18 +29,24 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured()
 
 /**
  * Mengambil daftar riwayat peserta dari Supabase
+ * @param limit Batas jumlah peserta yang diambil (opsional, jika tidak diberikan akan mengambil semua riwayat tanpa dibatasi 40)
  */
-export async function fetchParticipants(limit = 30): Promise<Participant[]> {
+export async function fetchParticipants(limit?: number): Promise<Participant[]> {
   if (!supabase || !isSupabaseConfigured()) {
     return [];
   }
 
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from('participants')
       .select('id, name, image_url, created_at')
-      .order('created_at', { ascending: false })
-      .limit(limit);
+      .order('created_at', { ascending: false });
+
+    if (typeof limit === 'number' && limit > 0) {
+      query = query.limit(limit);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       console.warn('Gagal memuat peserta dari Supabase:', error.message);
